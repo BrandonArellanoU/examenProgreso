@@ -14,7 +14,9 @@ typedef struct {
     int codigo;
     char nombre[50];
     char carrera[50];
-    float nota1,nota2,nota3;
+    float nota1;
+    float nota2;
+    float nota3;
     float promedio;
     } Estudiante;
 
@@ -23,40 +25,53 @@ float calcularPromedio(Estudiante *estudiantes, int numEstudiantes);
 void archivoOrdenado(Estudiante *estudiantes, int numEstudiantes);
 
 
-int main(){
+int main() {
 
     int numEstudiantes;
     Estudiante *estudiantes;
 
-    // Abrir archivo de entrada
+ 
     FILE *archivoEntrada = fopen("alumnos.txt", "r");
     if (archivoEntrada == NULL) {
         printf("No se pudo abrir el archivo de entrada.\n");
         return 1;
     }
 
+
     fscanf(archivoEntrada, "%d", &numEstudiantes);
 
-    estudiantes  = (Estudiante*) malloc (numEstudiantes * sizeof(Estudiante));
+    estudiantes = (Estudiante*) malloc(numEstudiantes * sizeof(Estudiante));
     if (estudiantes == NULL) {
         printf("Error de memoria.\n");
         return 1;
     }
 
+    char buffer[100];  
     for (int i = 0; i < numEstudiantes; i++) {
-        fscanf(archivoEntrada, "%d;%[^;];%[^;];%f;%f;%f\n", &(estudiantes[i].codigo), estudiantes[i].nombre, estudiantes[i].carrera, &(estudiantes[i].nota1), &(estudiantes[i].nota2), &(estudiantes[i].nota3));
+        fscanf(archivoEntrada, "%d;", &(estudiantes[i].codigo));
+        fgets(buffer, sizeof(buffer), archivoEntrada);
+        sscanf(buffer, "%[^;];%[^;];%f;%f;%f", estudiantes[i].nombre, estudiantes[i].carrera, &(estudiantes[i].nota1), &(estudiantes[i].nota2), &(estudiantes[i].nota3));
         estudiantes[i].promedio = (estudiantes[i].nota1 + estudiantes[i].nota2 + estudiantes[i].nota3) / 3;
     }
 
     fclose(archivoEntrada);
 
+    ordenarEstudiantes(estudiantes, numEstudiantes);
+
+    float promedio = calcularPromedio(estudiantes, numEstudiantes);
+
+    archivoOrdenado(estudiantes, numEstudiantes);
+
+
+    free(estudiantes);
 
     return 0;
 }
 
+
 void ordenarEstudiantes(Estudiante *estudiantes, int numEstudiantes) {
     for (int i = 0; i < numEstudiantes - 1; i++) {
-        for (int j = 0; j < numEstudiantes - i - 1; j++) {
+        for (int j = 0; j < numEstudiantes - 1; j++) {
             if (estudiantes[j].codigo > estudiantes[j + 1].codigo) {
                 
                 Estudiante temp = estudiantes[j];
@@ -71,27 +86,26 @@ void ordenarEstudiantes(Estudiante *estudiantes, int numEstudiantes) {
 
 float calcularPromedio(Estudiante *estudiantes, int numEstudiantes){
     float suma = 0; 
-    for (int i =0; i < numEstudiantes; i--){
+    for (int i =0; i < numEstudiantes; i++){
         suma += estudiantes[i].promedio;
     }
-
-    return suma / numEstudiantes;
-
+return (suma / numEstudiantes);
 }
 
-void archivoOrdenado(Estudiante *estudiantes, int numEstudiantes){
-    FILE *archivoReordenado  = fopen("alumnos.txt", "w+") ; 
-    if (archivoReordenado == NULL) {
-        printf("Error no se pudo abrir el archivo.\n");
-        return 1;
+void archivoOrdenado(Estudiante *estudiantes, int numEstudiantes) {
+    // Abrir archivo de salida
+    FILE *archivoSalida = fopen("datos_ordenados.txt", "w");
+    if (archivoSalida == NULL) {
+        printf("No se pudo abrir el archivo de salida.\n");
+        exit(1);
     }
 
-    fprintf(archivoOrdenado, "%d\n", numEstudiantes);
+    fprintf(archivoSalida, "%d\n", numEstudiantes);
 
-    for (int i=0; i<numEstudiantes; i++){
-        fprintf(archivoReordenado;"%d;%s;%s;%f;%f;%f;%f", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].nota1,estudiantes[i].nota2,estudiantes[i].nota3,estudiantes[i].promedio);
+    for (int i = 0; i < numEstudiantes; i++) {
+        fprintf(archivoSalida, "%d;%s;%s;%.2f;%.2f;%.2f;%.2f\n", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].carrera, estudiantes[i].nota1, estudiantes[i].nota2, estudiantes[i].nota3, estudiantes[i].promedio);
     }
 
-    fclose(archivoReordenado);
-
+    // Cerrar archivo de salida
+    fclose(archivoSalida);
 }
