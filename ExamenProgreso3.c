@@ -75,7 +75,23 @@ float calcularPromedio(Estudiante *estudiantes, int numEstudiantes){
         suma += estudiantes[i].promedio;
     }
 
-return suma / numEstudiantes;
+    return suma / numEstudiantes;
 
 }
 
+void archivoOrdenado(Estudiante *estudiantes, int numEstudiantes){
+    FILE *archivoReordenado  = fopen("alumnos.txt", "w+") ; 
+    if (archivoReordenado == NULL) {
+        printf("Error no se pudo abrir el archivo.\n");
+        return 1;
+    }
+
+    fprintf(archivoOrdenado, "%d\n", numEstudiantes);
+
+    for (int i=0; i<numEstudiantes; i++){
+        fprintf(archivoReordenado;"%d;%s;%s;%f;%f;%f;%f", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].nota1,estudiantes[i].nota2,estudiantes[i].nota3,estudiantes[i].promedio);
+    }
+
+    fclose(archivoReordenado);
+
+}
