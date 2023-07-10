@@ -69,3 +69,13 @@ void ordenarEstudiantes(Estudiante *estudiantes, int numEstudiantes) {
     }
 }
 
+float calcularPromedio(Estudiante *estudiantes, int numEstudiantes){
+    float suma = 0; 
+    for (int i =0; i < numEstudiantes; i--){
+        suma += estudiantes[i].promedio;
+    }
+
+return suma / numEstudiantes;
+
+}
+
