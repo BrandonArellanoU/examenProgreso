@@ -7,9 +7,35 @@ Programacion 1
 Universidad de las Americas
 */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    int codigo;
+    char nombre[50];
+    char carrera[50];
+    float nota1,nota2,nota3;
+    float promedio;
+    } Estudiante;
 
 
 int main(){
+
+    int numEstudiantes;
+    Estudiante *estudiantes;
+
+    // Abrir archivo de entrada
+    FILE *archivoEntrada = fopen("datos.txt", "r");
+    if (archivoEntrada == NULL) {
+        printf("No se pudo abrir el archivo de entrada.\n");
+        return 1;
+    }
+
+    // Leer número de estudiantes del archivo
+    fscanf(archivoEntrada, "%d", &numEstudiantes);
+
+
+
 
     return 0;
 }
