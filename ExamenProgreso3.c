@@ -35,10 +35,19 @@ int main(){
         return 1;
     }
 
-    // Leer número de estudiantes del archivo
     fscanf(archivoEntrada, "%d", &numEstudiantes);
 
+    estudiantes  = (Estudiante*) malloc (numEstudiantes * sizeof(Estudiante));
+    if (estudiantes == NULL) {
+        printf("Error de memoria.\n");
+        return 1;
+    }
 
+    for (int i = 0; i < numEstudiantes; i++) {
+        fscanf(archivoEntrada, "%d;%[^;];%[^;];%f;%f;%f\n", &(estudiantes[i].codigo), estudiantes[i].nombre, estudiantes[i].carrera, &(estudiantes[i].nota1), &(estudiantes[i].nota2), &(estudiantes[i].nota3));
+        estudiantes[i].promedio = (estudiantes[i].nota1 + estudiantes[i].nota2 + estudiantes[i].nota3) / 3;
+    }
+    
 
 
     return 0;
