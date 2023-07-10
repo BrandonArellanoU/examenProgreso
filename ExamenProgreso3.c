@@ -18,6 +18,10 @@ typedef struct {
     float promedio;
     } Estudiante;
 
+void ordenarEstudiantes(Estudiante *estudiantes, int numEstudiantes);
+float calcularPromedio(Estudiante *estudiantes, int numEstudiantes);
+void archivoOrdenado(Estudiante *estudiantes, int numEstudiantes);
+
 
 int main(){
 
@@ -25,7 +29,7 @@ int main(){
     Estudiante *estudiantes;
 
     // Abrir archivo de entrada
-    FILE *archivoEntrada = fopen("datos.txt", "r");
+    FILE *archivoEntrada = fopen("alumnos.txt", "r");
     if (archivoEntrada == NULL) {
         printf("No se pudo abrir el archivo de entrada.\n");
         return 1;
