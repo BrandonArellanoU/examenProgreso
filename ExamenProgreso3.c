@@ -47,8 +47,25 @@ int main(){
         fscanf(archivoEntrada, "%d;%[^;];%[^;];%f;%f;%f\n", &(estudiantes[i].codigo), estudiantes[i].nombre, estudiantes[i].carrera, &(estudiantes[i].nota1), &(estudiantes[i].nota2), &(estudiantes[i].nota3));
         estudiantes[i].promedio = (estudiantes[i].nota1 + estudiantes[i].nota2 + estudiantes[i].nota3) / 3;
     }
-    
+
+    fclose(archivoEntrada);
 
 
     return 0;
 }
+
+void ordenarEstudiantes(Estudiante *estudiantes, int numEstudiantes) {
+    for (int i = 0; i < numEstudiantes - 1; i++) {
+        for (int j = 0; j < numEstudiantes - i - 1; j++) {
+            if (estudiantes[j].codigo > estudiantes[j + 1].codigo) {
+                
+                Estudiante temp = estudiantes[j];
+                
+                estudiantes[j] = estudiantes[j + 1];
+                
+                estudiantes[j + 1] = temp;
+            }
+        }
+    }
+}
+
